@@ -1,0 +1,2 @@
+rootProject.name='Think and go'
+include ':app'
