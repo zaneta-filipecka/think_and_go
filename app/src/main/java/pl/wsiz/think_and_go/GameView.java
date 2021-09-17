@@ -9,6 +9,10 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.Stack;
+
 public class GameView extends View {
 
     //deklaracja zmiennych - parametry labiryntu
@@ -20,6 +24,9 @@ public class GameView extends View {
     private float rozmiarKomorki, marginesPoziom, marginesPion;
     private Paint sciana;
 
+    //Zmienna do losowania sąsiada
+    private Random los;
+
     //konstruktor klasy GameView
     public GameView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -29,10 +36,81 @@ public class GameView extends View {
         sciana.setColor(Color.BLACK); //kolor labiryntu
         sciana.setStrokeWidth(grubosc_scian);
 
+        //inicjalizacja zmiennej do losowania sąsiadów
+        los = new Random();
+
         stworzLabirynt();
     }
 
+    private Komorka wezSasiada(Komorka komorka){
+        ArrayList<Komorka> sasiedzi = new ArrayList<>();
+
+        //lewy sąsiad
+        if(komorka.kolumna>0) {
+            if (!komorki[komorka.kolumna - 1][komorka.wiersz].odwiedzona) {
+                sasiedzi.add(komorki[komorka.kolumna - 1][komorka.wiersz]);
+            }
+        }
+        //prawy sąsiad
+        if(komorka.kolumna<liczbaKolumn-1) {
+            if (!komorki[komorka.kolumna + 1][komorka.wiersz].odwiedzona) {
+                sasiedzi.add(komorki[komorka.kolumna + 1][komorka.wiersz]);
+            }
+        }
+        //górny sąsiad
+        if(komorka.wiersz>0) {
+            if (!komorki[komorka.kolumna][komorka.wiersz - 1].odwiedzona) {
+                sasiedzi.add(komorki[komorka.kolumna][komorka.wiersz - 1]);
+            }
+        }
+        //dolny sąsiad
+        if(komorka.wiersz<liczbaWierszy-1)
+        if (!komorki[komorka.kolumna][komorka.wiersz + 1].odwiedzona){
+            sasiedzi.add(komorki[komorka.kolumna][komorka.wiersz + 1]);
+        }
+
+        //losowe wybieranie sąsiada (obliczanie losowego indeksu)
+        if(sasiedzi.size()>0) {
+            int indeks = los.nextInt(sasiedzi.size()); //jeśli mamy 3 nieodwiedzonych sąsiadów, to indeks może mieć wartość 0, 1 albo 2
+            return sasiedzi.get(indeks);
+        }
+        else {
+            return null;
+        }
+    }
+
+    //usuwanie ścian pomiędzy sąsiadami
+
+    private void usunSciane(Komorka obecnaKom, Komorka nastepnaKom) {
+
+        //górny sąsiad
+        if(obecnaKom.kolumna == nastepnaKom.kolumna && obecnaKom.wiersz == nastepnaKom.wiersz+1){
+            obecnaKom.gornaSciana = false;
+            nastepnaKom.dolnaSciana = false;
+        }
+        //dolny sąsiad
+        if(obecnaKom.kolumna == nastepnaKom.kolumna && obecnaKom.wiersz == nastepnaKom.wiersz-1){
+            obecnaKom.dolnaSciana = false;
+            nastepnaKom.gornaSciana = false;
+        }
+        //prawy sąsiad
+        if(obecnaKom.kolumna == nastepnaKom.kolumna - 1 && obecnaKom.wiersz == nastepnaKom.wiersz){
+            obecnaKom.prawaSciana = false;
+            nastepnaKom.lewaSciana = false;
+        }
+        //lewy sąsiad
+        if(obecnaKom.kolumna == nastepnaKom.kolumna + 1 && obecnaKom.wiersz == nastepnaKom.wiersz){
+            obecnaKom.lewaSciana = false;
+            nastepnaKom.prawaSciana = false;
+        }
+    }
+
     private void stworzLabirynt() {
+
+        //budowanie stosu na odwiedzone komórki
+        Stack<Komorka> stos = new Stack<>();
+        Komorka obecnaKomorka, nastepnaKomorka;
+
         //określenie wielkości labiryntu
         komorki = new Komorka[liczbaKolumn][liczbaWierszy];
 
@@ -41,6 +119,26 @@ public class GameView extends View {
                 komorki[x][y] = new Komorka(x, y);      //tworzenie nowego obiektu dla każdej komórki
             }
         }
+
+        //ustawianie współrzędnych dla pierwszej komórki jako [0][0]
+        obecnaKomorka = komorki[0][0];
+
+        //wykonywanie czynności w pętli, aż do uzyskania całego labiryntu
+        do {
+            //znajdowanie "nieodwiedzonych" komórek
+            nastepnaKomorka = wezSasiada(obecnaKomorka);
+            obecnaKomorka.odwiedzona = true;
+
+            //sprawdzenie czy komorka ma sąsiada
+            if (nastepnaKomorka != null) {
+                usunSciane(obecnaKomorka, nastepnaKomorka);
+                stos.push(obecnaKomorka);
+                obecnaKomorka = nastepnaKomorka;
+                obecnaKomorka.odwiedzona = true;
+            } else {
+                obecnaKomorka = stos.pop(); //jeśli nie ma sąsiada, wracamy do poprzedniej komórki, która ma sąsiada, zdejmując współrzędne ze stosu
+            }
+        } while(!stos.empty());
     }
 
     //obliczenia wielkości labiryntu
@@ -93,6 +191,9 @@ public class GameView extends View {
         boolean dolnaSciana = true;
         boolean prawaSciana = true;
         boolean lewaSciana = true;
+
+        //przypisanie do komórki, czy została odwiedzona, czy nieodwiedzona
+        boolean odwiedzona = false;
 
         //każda komórka ma swoją pozycję (określoną kolumnę i wiersz)
         int kolumna, wiersz;
