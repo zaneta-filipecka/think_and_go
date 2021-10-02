@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -24,8 +25,17 @@ public class GameView extends View {
     private float rozmiarKomorki, marginesPoziom, marginesPion;
     private Paint sciana;
 
-    //Zmienna do losowania sąsiada
+    //deklaracja zmiennych - zmienna do losowania sąsiada
     private Random los;
+
+    //deklaracja zmiennych - gracz i wyjście
+    private Komorka gracz, wyjscie;
+    private Paint zawodnik, koniecPoziomu;
+
+    //deklaracja kierunków
+    private enum Kierunek{
+        gora, dol, prawo, lewo      //enum to typ danych dla samodefiniujących się stałych
+    }
 
     //konstruktor klasy GameView
     public GameView(Context context, @Nullable AttributeSet attrs) {
@@ -35,6 +45,14 @@ public class GameView extends View {
         sciana = new Paint();
         sciana.setColor(Color.BLACK); //kolor labiryntu
         sciana.setStrokeWidth(grubosc_scian);
+
+        //tworzenie obiektu gracza
+        zawodnik = new Paint();
+        zawodnik.setColor(Color.RED);
+
+        //tworzenie obiektu wyjścia
+        koniecPoziomu = new Paint();
+        koniecPoziomu.setColor(Color.BLUE);
 
         //inicjalizacja zmiennej do losowania sąsiadów
         los = new Random();
@@ -120,6 +138,10 @@ public class GameView extends View {
             }
         }
 
+        //określenie pozycji początkowej dla gracza i wyścia
+        gracz = komorki[0][0];
+        wyjscie = komorki [liczbaKolumn-1][liczbaWierszy-1];
+
         //ustawianie współrzędnych dla pierwszej komórki jako [0][0]
         obecnaKomorka = komorki[0][0];
 
@@ -183,6 +205,99 @@ public class GameView extends View {
                 }
             }
         }
+
+        //margines dla gracza i wyjścia
+        float margines = rozmiarKomorki/2;
+
+        //wyświetlanie gracza i wyjścia
+        canvas.drawCircle(gracz.kolumna*rozmiarKomorki+margines,gracz.wiersz*rozmiarKomorki+margines, (rozmiarKomorki/2)-5, zawodnik);
+        canvas.drawCircle(wyjscie.kolumna*rozmiarKomorki+margines,wyjscie.wiersz*rozmiarKomorki+margines, (rozmiarKomorki/2)-5, koniecPoziomu);
+    }
+
+    //metoda sprawdzająca, czy gracz doszedł do końca planszy
+    private void sprawdzWyjscie(){
+        if(gracz == wyjscie){
+            stworzLabirynt();
+        }
+    }
+
+    private void przesunGracza(Kierunek kierunek){
+        switch (kierunek){
+            case gora:
+                //jeśli nie ma górnej ściany, to idzmy w górę
+                if(!gracz.gornaSciana)
+                gracz = komorki[gracz.kolumna][gracz.wiersz-1];
+                break;
+            case dol:
+                //jeśli nie ma dolnej ściany, to idziemy w dół
+                if(!gracz.dolnaSciana)
+                    gracz = komorki[gracz.kolumna][gracz.wiersz+1];
+                break;
+            case prawo:
+                //jeśli nie ma prawej ściany, to idziemy w prawo
+                if(!gracz.prawaSciana)
+                    gracz = komorki[gracz.kolumna+1][gracz.wiersz];
+                break;
+            case lewo:
+                //jeśli nie ma lewej ściany, to idziemy w lewo
+                if(!gracz.lewaSciana)
+                    gracz = komorki[gracz.kolumna-1][gracz.wiersz];
+                break;
+        }
+        sprawdzWyjscie();
+        invalidate();   //wywołuje metodę onDraw najszybciej jak to możliwe
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        //żeby ACTION_MOVE mogło zadziałać, to najpierw trzeba dać ACTION_DOWN, bo ACTION_MOVE jest częścią większej struktury zaczynającej się od ACTION_DOWN. Jak nie ma ACTION_DOWN, to nie działa ACTION_MOVE
+        if(event.getAction() == MotionEvent.ACTION_DOWN){
+            return true;
+        }
+
+        if(event.getAction() == MotionEvent.ACTION_MOVE){
+            float x = event.getX();
+            float y = event.getY();
+
+            float srodekGraczaX = marginesPoziom + (gracz.kolumna+0.5f) * rozmiarKomorki;
+            float srodekGraczaY = marginesPion + (gracz.wiersz+0.5f) * rozmiarKomorki;
+
+            //obliczanie różnic pomiędzy pozycją gracza a pozycją zdarzenia
+            float kierunekX = x - srodekGraczaX;
+            float kierunekY = y - srodekGraczaY;
+
+            //obliczanie wartości bezwzględnych dla różnic w pozycjach
+            float bezDlaX = Math.abs(kierunekX);
+            float bezDlaY = Math.abs(kierunekY);
+
+            //gracz porusza się jeśli różnica bezwzględna jest większa niż rozmiar komórki
+            if(bezDlaX > rozmiarKomorki || bezDlaY > rozmiarKomorki){
+                if(bezDlaX > bezDlaY){
+                    //poruszamy się w kierunku X
+                    if(kierunekX > 0){
+                        //gracz idzie w prawo
+                        przesunGracza(Kierunek.prawo);
+                    }
+                    else{
+                        //gracz idzie w lewo
+                        przesunGracza(Kierunek.lewo);
+                    }
+                }
+                else{
+                    //poruszamy się w kierunku Y
+                    if(kierunekY > 0){
+                        //gracz idzie w dół
+                        przesunGracza(Kierunek.dol);
+                    }
+                    else{
+                        //gracz idzie do góry
+                        przesunGracza(Kierunek.gora);
+                    }
+                }
+            }
+            return true;
+        }
+        return super.onTouchEvent(event);
     }
 
     private class Komorka{

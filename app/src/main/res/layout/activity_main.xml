@@ -15,7 +15,7 @@
             android:id="@+id/nazwaGry"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="85dp"
+            android:textSize="80dp"
             android:text="@string/app_name"
             android:gravity="center_horizontal"/>
 
@@ -31,9 +31,9 @@
                 android:layout_height="wrap_content"
                 android:text="@string/play_text"
                 android:background="@color/buttonColor"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="10dp"/>
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginBottom="12dp"/>
 
             <Button
                 android:id="@+id/wyniki"
@@ -41,9 +41,9 @@
                 android:layout_height="wrap_content"
                 android:text="@string/score_text"
                 android:background="@color/buttonColor"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="10dp"/>
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginBottom="12dp"/>
 
             <Button
                 android:id="@+id/wyjście"
@@ -51,9 +51,9 @@
                 android:layout_height="wrap_content"
                 android:text="@string/exit_text"
                 android:background="@color/buttonColor"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="10dp"/>
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginBottom="12dp"/>
 
         </LinearLayout>
 
