@@ -52,7 +52,7 @@ public class GameView extends View {
 
         //tworzenie obiektu wyjścia
         koniecPoziomu = new Paint();
-        koniecPoziomu.setColor(Color.BLUE);
+        koniecPoziomu.setColor(Color.BLACK);
 
         //inicjalizacja zmiennej do losowania sąsiadów
         los = new Random();
