@@ -1,7 +1,9 @@
 package pl.wsiz.think_and_go;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -23,9 +25,35 @@ public class MainActivity extends AppCompatActivity {
         graj.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(MainActivity.this, GameActivity.class);
-                startActivity(intent);
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle(R.string.select_difficulty)
+                        .setItems(R.array.level, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                if(which==0) {
+                                    Intent in = new Intent();
+                                    in.setClass(MainActivity.this, GameActivityEasy.class);
+                                    startActivity(in);
+                                }
+                                else if(which==1) {
+                                    Intent inten = new Intent();
+                                    inten.setClass(MainActivity.this, GameActivityMedium.class);
+                                    startActivity(inten);
+                                }
+                                else if(which==2){
+                                    Intent inte = new Intent();
+                                    inte.setClass(MainActivity.this, GameActivityHard.class);
+                                    startActivity(inte);
+                                }
+                                else if(which==3){
+                                    Intent intent = new Intent();
+                                    intent.setClass(MainActivity.this, GameActivityExpert.class);
+                                    startActivity(intent);
+                                }
+                            }
+                        });
+                // Stworzenie obiektu AlertDialog i zwrócenie
+                AlertDialog alert = builder.create();
+                alert.show();
             }
         });
 
@@ -48,3 +76,4 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 }
+

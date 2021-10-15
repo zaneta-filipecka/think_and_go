@@ -16,7 +16,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".GameActivity"/>
+        <activity android:name=".GameActivityEasy"/>
+        <activity android:name=".GameActivityMedium"/>
+        <activity android:name=".GameActivityHard"/>
+        <activity android:name=".GameActivityExpert"/>
         <activity android:name=".ScoreActivity"/>
     </application>
 

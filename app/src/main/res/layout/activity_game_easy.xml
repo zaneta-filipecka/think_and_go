@@ -6,9 +6,9 @@
     android:background="@color/gameBackgroundColor">
 
     <view
-        android:id="@+id/view"
+        android:id="@+id/viewEasy"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        class="pl.wsiz.think_and_go.GameView"/>
+        class="pl.wsiz.think_and_go.GameViewEasy"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

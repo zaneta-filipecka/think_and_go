@@ -3,4 +3,9 @@
     <string name="play_text">Graj</string>
     <string name="score_text">Wyniki</string>
     <string name="exit_text">Wyjście</string>
+    <string name="select_difficulty">Wybierz poziom trudności</string>
+    <string name="easy">Łatwy</string>
+    <string name="medium">Średni</string>
+    <string name="hard">Trudny</string>
+    <string name="expert">Ekspert</string>
 </resources>

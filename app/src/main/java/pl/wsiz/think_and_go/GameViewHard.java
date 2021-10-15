@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Stack;
 
-public class GameView extends View {
+public class GameViewHard extends View {
 
     //deklaracja zmiennych - parametry labiryntu
     private Komorka[][] komorki;
@@ -37,8 +37,8 @@ public class GameView extends View {
         gora, dol, prawo, lewo      //enum to typ danych dla samodefiniujących się stałych
     }
 
-    //konstruktor klasy GameView
-    public GameView(Context context, @Nullable AttributeSet attrs) {
+    //konstruktor klasy GameViewHard
+    public GameViewHard(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
 
         //tworzenie obiektu ścian labiryntu
@@ -83,9 +83,9 @@ public class GameView extends View {
         }
         //dolny sąsiad
         if(komorka.wiersz<liczbaWierszy-1)
-        if (!komorki[komorka.kolumna][komorka.wiersz + 1].odwiedzona){
-            sasiedzi.add(komorki[komorka.kolumna][komorka.wiersz + 1]);
-        }
+            if (!komorki[komorka.kolumna][komorka.wiersz + 1].odwiedzona){
+                sasiedzi.add(komorki[komorka.kolumna][komorka.wiersz + 1]);
+            }
 
         //losowe wybieranie sąsiada (obliczanie losowego indeksu)
         if(sasiedzi.size()>0) {
@@ -226,7 +226,7 @@ public class GameView extends View {
             case gora:
                 //jeśli nie ma górnej ściany, to idzmy w górę
                 if(!gracz.gornaSciana)
-                gracz = komorki[gracz.kolumna][gracz.wiersz-1];
+                    gracz = komorki[gracz.kolumna][gracz.wiersz-1];
                 break;
             case dol:
                 //jeśli nie ma dolnej ściany, to idziemy w dół
