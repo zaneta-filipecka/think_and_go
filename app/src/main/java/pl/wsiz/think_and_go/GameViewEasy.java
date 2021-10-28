@@ -18,7 +18,7 @@ public class GameViewEasy extends View {
 
     //deklaracja zmiennych - parametry labiryntu
     private Komorka[][] komorki;
-    private static final int liczbaKolumn = 11, liczbaWierszy = 20;
+    private static final int liczbaKolumn = 5, liczbaWierszy = 8;
     private static final float grubosc_scian = 5;
 
     //deklaracja zmiennych - malowanie labiryntu
@@ -32,10 +32,14 @@ public class GameViewEasy extends View {
     private Komorka gracz, wyjscie;
     private Paint zawodnik, koniecPoziomu;
 
+    public int wynik = 0;
+
     //deklaracja kierunków
     private enum Kierunek{
         gora, dol, prawo, lewo      //enum to typ danych dla samodefiniujących się stałych
     }
+
+    Context context;
 
     //konstruktor klasy GameViewEasy
     public GameViewEasy(Context context, @Nullable AttributeSet attrs) {
@@ -217,7 +221,9 @@ public class GameViewEasy extends View {
     //metoda sprawdzająca, czy gracz doszedł do końca planszy
     private void sprawdzWyjscie(){
         if(gracz == wyjscie){
+            wynik = wynik + 10;
             stworzLabirynt();
+            GameActivityEasy.setWyn("Wynik:" + wynik);
         }
     }
 

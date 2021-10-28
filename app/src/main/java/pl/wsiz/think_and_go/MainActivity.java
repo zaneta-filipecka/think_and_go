@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             }
                         });
-                // Stworzenie obiektu AlertDialog i zwrócenie
+                // Stworzenie obiektu AlertDialog i zwrócenie go
                 AlertDialog alert = builder.create();
                 alert.show();
             }

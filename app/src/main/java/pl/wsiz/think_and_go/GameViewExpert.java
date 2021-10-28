@@ -18,7 +18,7 @@ public class GameViewExpert extends View {
 
     //deklaracja zmiennych - parametry labiryntu
     private Komorka[][] komorki;
-    private static final int liczbaKolumn = 11, liczbaWierszy = 20;
+    private static final int liczbaKolumn = 15, liczbaWierszy = 28;
     private static final float grubosc_scian = 5;
 
     //deklaracja zmiennych - malowanie labiryntu
