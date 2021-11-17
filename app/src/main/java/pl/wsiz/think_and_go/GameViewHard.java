@@ -32,6 +32,8 @@ public class GameViewHard extends View {
     private Komorka gracz, wyjscie;
     private Paint zawodnik, koniecPoziomu;
 
+    public int wynik = 0;
+
     //deklaracja kierunków
     private enum Kierunek{
         gora, dol, prawo, lewo      //enum to typ danych dla samodefiniujących się stałych
@@ -216,8 +218,11 @@ public class GameViewHard extends View {
 
     //metoda sprawdzająca, czy gracz doszedł do końca planszy
     private void sprawdzWyjscie(){
+        GameActivityHard.setWyn("Wynik:" + wynik);
         if(gracz == wyjscie){
+            wynik = wynik + 30;
             stworzLabirynt();
+            GameActivityHard.setWyn("Wynik:" + wynik);
         }
     }
 

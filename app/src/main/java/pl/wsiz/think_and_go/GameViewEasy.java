@@ -220,6 +220,7 @@ public class GameViewEasy extends View {
 
     //metoda sprawdzająca, czy gracz doszedł do końca planszy
     private void sprawdzWyjscie(){
+        GameActivityEasy.setWyn("Wynik:" + wynik);
         if(gracz == wyjscie){
             wynik = wynik + 10;
             stworzLabirynt();
