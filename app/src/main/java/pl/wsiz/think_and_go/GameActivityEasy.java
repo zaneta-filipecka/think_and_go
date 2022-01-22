@@ -10,15 +10,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-//import androidx.room.Room;
-
-//import java.util.List;
 
 public class GameActivityEasy extends AppCompatActivity {
 
-    public static TextView wyn, gracz;
+    public static TextView wyn;
     public static Button back;
 
     Wyniki bazaDanych;
@@ -31,7 +27,6 @@ public class GameActivityEasy extends AppCompatActivity {
 
         bazaDanych = new Wyniki(this);
 
-        gracz = (TextView)findViewById(R.id.gracz);
         wyn = (TextView)findViewById(R.id.wynik);
         back = (Button)findViewById(R.id.menuEasy);
         AddData();
@@ -41,7 +36,7 @@ public class GameActivityEasy extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean isInserted = bazaDanych.insertData(gracz.toString(), wyn.toString());
+                boolean isInserted = bazaDanych.insertData("player", wyn.getText().toString());
                 if(isInserted = true) {
                     Toast.makeText(GameActivityEasy.this, R.string.add_data, Toast.LENGTH_LONG).show();
                     finish();
@@ -57,13 +52,4 @@ public class GameActivityEasy extends AppCompatActivity {
     public static void setWyn(String wyn) {
         GameActivityEasy.wyn.setText(wyn);
     }
-
-    /*@Override
-    protected void onStop() {
-        Wyniki.AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                Wyniki.AppDatabase.class, "wyniki").build();
-        Wyniki.UserDao userDao = db.userDao();
-        List<Wyniki> w = userDao.insertAll();
-    }*/
-
 }

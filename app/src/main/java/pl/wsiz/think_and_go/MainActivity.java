@@ -87,12 +87,12 @@ public class MainActivity extends AppCompatActivity {
                 else{
                     StringBuffer buffer = new StringBuffer();
                     while(res.moveToNext()){
-                        buffer.append("Id: " + res.getString(0).toString() + "\t");
-                        buffer.append("Gracz: " + ": " + res.getString(1).toString() +"\t");
-                        buffer.append("Wynik: " + res.getString(2).toString() +"\t\n");
+                        buffer.append("Id: " + res.getString(0).toString() + " \t");
+                        buffer.append("Gracz: " + res.getString(1).toString() +" \t");
+                        buffer.append(res.getString(2).toString() +" \t\n");
                     }
 
-                    pokazWiadomosc("Dane",buffer.toString());
+                    pokazWiadomosc("Wyniki",buffer.toString());
                 }
             }
         });
