@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -15,11 +16,15 @@ public class MainActivity extends AppCompatActivity {
     //zmienne
     private Button graj, wyniki, wyjście;
 
+    Wyniki bazaDanych;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
+
+        bazaDanych = new Wyniki(this);
 
         graj = (Button)findViewById(R.id.graj);
         graj.setOnClickListener(new View.OnClickListener() {
@@ -58,14 +63,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         wyniki = (Button)findViewById(R.id.wyniki);
-        wyniki.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent();
-                i.setClass(MainActivity.this, ScoreActivity.class);
-                startActivity(i);
-            }
-        });
 
         wyjście = (Button)findViewById(R.id.wyjście);
         wyjście.setOnClickListener(new View.OnClickListener() {
@@ -74,6 +71,39 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        zobaczDane();
+    }
+
+    public void zobaczDane(){
+        wyniki.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Cursor res = bazaDanych.getAllData();
+                if(res.getCount() == 0){
+                    pokazWiadomosc("Błąd", "Brak danych");
+                    return;
+                }
+                else{
+                    StringBuffer buffer = new StringBuffer();
+                    while(res.moveToNext()){
+                        buffer.append("Id: " + res.getString(0).toString() + "\t");
+                        buffer.append("Gracz: " + ": " + res.getString(1).toString() +"\t");
+                        buffer.append("Wynik: " + res.getString(2).toString() +"\t\n");
+                    }
+
+                    pokazWiadomosc("Dane",buffer.toString());
+                }
+            }
+        });
+    }
+
+    public void pokazWiadomosc(String tytul, String wiadomosc){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle(tytul);
+        builder.setMessage(wiadomosc);
+        builder.show();
     }
 }
 

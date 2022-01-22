@@ -5,6 +5,10 @@
     android:layout_height="match_parent"
     android:background="@color/gameBackgroundColor">
 
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
     <TextView
         android:id="@+id/wynik"
         android:layout_width="wrap_content"
@@ -15,5 +19,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         class="pl.wsiz.think_and_go.GameViewMedium"/>
+
+    <Button
+        android:id="@+id/menuMedium"
+        android:paddingHorizontal="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/back_to_menu"
+        android:background="@color/backButtonColor"/>
+
+</RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

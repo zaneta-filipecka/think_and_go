@@ -8,4 +8,11 @@
     <string name="medium">Medium</string>
     <string name="hard">Hard</string>
     <string name="expert">Expert</string>
+    <string name="back_to_menu">Back to menu</string>
+    <string name="player">Player</string>
+    <string name="add_data">Data inserted</string>
+    <string name="not_inserted_data">Data not inserted</string>
+    <string name="error">Error</string>
+    <string name="message">No data in database</string>
+    <string name="data">Data</string>
 </resources>

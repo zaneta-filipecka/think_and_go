@@ -8,4 +8,11 @@
     <string name="medium">Średni</string>
     <string name="hard">Trudny</string>
     <string name="expert">Ekspert</string>
+    <string name="back_to_menu">Wróć do menu</string>
+    <string name="player">Gracz</string>
+    <string name="add_data">Dodano dane</string>
+    <string name="not_inserted_data">Nie dodano danych</string>
+    <string name="error">Błąd</string>
+    <string name="message">Brak danych w bazie</string>
+    <string name="data">Dane</string>
 </resources>
