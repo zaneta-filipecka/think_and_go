@@ -10,11 +10,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
     //zmienne
-    private Button graj, wyniki, wyjście;
+    private Button graj, wyniki, usun_tabele, wyjście;
 
     Wyniki bazaDanych;
 
@@ -64,15 +65,31 @@ public class MainActivity extends AppCompatActivity {
 
         wyniki = (Button)findViewById(R.id.wyniki);
 
+        usun_tabele = (Button)findViewById(R.id.usun_tabele);
+
         wyjście = (Button)findViewById(R.id.wyjście);
         wyjście.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setMessage(R.string.exit_asking)
+                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                finish();
+                            }
+                        })
+                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+
+                            }
+                        });
+                AlertDialog al = builder.create();
+                al.show();
             }
         });
 
         zobaczDane();
+        UsunTabele();
     }
 
     public void zobaczDane(){
@@ -94,6 +111,19 @@ public class MainActivity extends AppCompatActivity {
 
                     pokazWiadomosc("Wyniki",buffer.toString());
                 }
+            }
+        });
+    }
+
+    public void UsunTabele(){
+        usun_tabele.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Integer deletedRows = bazaDanych.deleteDatabase();
+                if(deletedRows > 0)
+                    Toast.makeText(MainActivity.this, R.string.deletedDatabase, Toast.LENGTH_LONG).show();
+                else
+                Toast.makeText(MainActivity.this, R.string.notDeletedDatabase, Toast.LENGTH_LONG).show();
             }
         });
     }

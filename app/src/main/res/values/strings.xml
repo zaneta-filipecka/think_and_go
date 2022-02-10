@@ -15,4 +15,10 @@
     <string name="error">Error</string>
     <string name="message">No data in database</string>
     <string name="data">Data</string>
+    <string name="deleteData">Delete scores</string>
+    <string name="deletedDatabase">Data has been deleted</string>
+    <string name="notDeletedDatabase">Data has not been deleted</string>
+    <string name="exit_asking">Do you want to exit the game?</string>
+    <string name="yes">Tak</string>
+    <string name="no">Nie</string>
 </resources>

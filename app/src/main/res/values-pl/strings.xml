@@ -15,4 +15,10 @@
     <string name="error">Błąd</string>
     <string name="message">Brak danych w bazie</string>
     <string name="data">Dane</string>
+    <string name="deleteData">Usuń wyniki</string>
+    <string name="deletedDatabase">Dane zostały usunięte</string>
+    <string name="notDeletedDatabase">Dane nie zostały usunięte</string>
+    <string name="exit_asking">Chcesz wyjść z gry?</string>
+    <string name="yes">Tak</string>
+    <string name="no">Nie</string>
 </resources>

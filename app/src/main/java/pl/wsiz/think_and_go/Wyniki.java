@@ -27,7 +27,7 @@ public class Wyniki extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db. execSQL("DROP TABLE IF EXISTS " + nazwa_tablicy);
+        db.execSQL("DROP TABLE IF EXISTS " + nazwa_tablicy);
         onCreate(db);
     }
 
@@ -48,5 +48,10 @@ public class Wyniki extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor rezultat = db.rawQuery("select * from " + nazwa_tablicy, null);
         return rezultat;
+    }
+
+    public Integer deleteDatabase(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(nazwa_tablicy, "1", null);
     }
 }
